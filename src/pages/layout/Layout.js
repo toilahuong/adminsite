@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { Container } from "react-bootstrap";
-import { Route, Switch } from "react-router";
+import { Redirect, Route, Switch } from "react-router";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
-const Home = React.lazy(() => import('./Home'))
+const Dashboard = React.lazy(() => import('../dashboard/Dashboard'))
+const Post = React.lazy(() => import('../posts/Post'))
 
 export default function Layout() {
     const [isToggle, setToggle] = useState(false);
@@ -17,7 +18,9 @@ export default function Layout() {
             <div className="wrapper-content">
                 <Container>
                     <Switch>
-                        <Route exact path="/" component={Home}/>
+                        <Route path="/dashboard" component={Dashboard}/>
+                        <Route path="/posts" component={Post}/>
+                        <Route exact path="/" render={() => <Redirect to="/dashboard"/>}/>
                     </Switch>
                 </Container>
                 

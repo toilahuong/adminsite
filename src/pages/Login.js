@@ -10,6 +10,7 @@ import validateMsg from "../validateMsg";
 import { useHistory } from "react-router";
 import { useDispatch } from "react-redux";
 import { getUser } from "../redux/slices/user";
+import Loading from "./loading/Loading";
 const LoginSchema = Yup.object().shape({
     email: Yup.string()
       .min(3, () => validateMsg("Email", "min"))
@@ -104,5 +105,5 @@ export default function Login() {
                 <ToastContainer />
             </div>
         </Container>
-    ) : ''
+    ) : <Loading />
 }
