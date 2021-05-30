@@ -1,11 +1,15 @@
 import axios from "axios";
+import '../assets/scss/login.scss';
 import { ErrorMessage, FastField, Form, Formik } from "formik";
 import { useEffect, useState } from "react";
 import { Button, Container } from "react-bootstrap";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import * as Yup from "yup";
 import { SERVER, SITE_NAME } from "../config";
 import validateMsg from "../validateMsg";
+import { useHistory } from "react-router";
+import { useDispatch } from "react-redux";
+import { getUser } from "../redux/slices/user";
 const LoginSchema = Yup.object().shape({
     email: Yup.string()
       .min(3, () => validateMsg("Email", "min"))
@@ -18,6 +22,8 @@ const LoginSchema = Yup.object().shape({
 });
 export default function Login() {
     const [initialValues,setInitialValues] = useState();
+    const history = useHistory();
+    const dispatch = useDispatch();
     const settings = {
         position: "top-center",
         autoClose: 2000,
@@ -48,7 +54,7 @@ export default function Login() {
     return initialValues ?
     (
         <Container>
-            <div className="sec-guest hide-loading">
+            <div className="form-login hide-loading">
                 <h1> Đăng Nhập </h1>
                 <div className="social-login">
 
@@ -58,11 +64,13 @@ export default function Login() {
                     validationSchema={LoginSchema}
                     onSubmit={async (values) => {
                         try {
-                            await axios.post(`${SERVER}/api/user/login`, values,{ withCredentials: true });
+                            
+                            await axios.post(`${SERVER}/user/login-admin`, values,{ withCredentials: true });
                             toast.success("Đăng nhập thành công",settings);
+                            dispatch(getUser())
                             setTimeout(() => {
-                                window.location = '/profile';
-                            },2000);
+                                history.push('/');
+                            },2000)
                             
                         } catch (error) {
                             if(error.response.data.errors) {
@@ -87,12 +95,13 @@ export default function Login() {
                                     <FastField className="form-control" type="password" name="password" placeholder="********" autoComplete="off"/>
                                     <ErrorMessage name="password" render={msg => <div className="error-message">{msg}</div>} />
                                 </div>
-                                <Button>Đăng nhập</Button>
+                                <Button type="submit">Đăng nhập</Button>
                             </Form>
                         )
                     }
                     
                 </Formik>
+                <ToastContainer />
             </div>
         </Container>
     ) : ''

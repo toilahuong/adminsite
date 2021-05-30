@@ -25,10 +25,10 @@ const userSlice = createSlice({
         [getUser.rejected]: (state,action) => {
             state.isLoading = false;
         },
-        [getUser.pending]: (state,action) => {
+        [getUser.fulfilled]: (state,action) => {
             state.current = action.payload;
             state.isLoading = false;
-            state.isAdmin = false;
+            state.isAdmin = true;
         }
     }
 })
