@@ -5,6 +5,8 @@ import Header from "./Header";
 import Sidebar from "./Sidebar";
 const Dashboard = React.lazy(() => import('../dashboard/Dashboard'))
 const Post = React.lazy(() => import('../posts/Post'))
+const Category = React.lazy(() => import('../category/Category'))
+const Upload = React.lazy(() => import('../upload/Upload'))
 
 export default function Layout() {
     const [isToggle, setToggle] = useState(false);
@@ -20,6 +22,8 @@ export default function Layout() {
                     <Switch>
                         <Route path="/dashboard" component={Dashboard}/>
                         <Route path="/posts" component={Post}/>
+                        <Route path="/category" component={Category}/>
+                        <Route path="/upload" component={Upload}/>
                         <Route exact path="/" render={() => <Redirect to="/dashboard"/>}/>
                     </Switch>
                 </Container>

@@ -1,6 +1,8 @@
-import { Col, Form, Row } from "react-bootstrap";
+import { Button, Card, Col, Form, Nav, Row } from "react-bootstrap";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import Editor from 'ckeditor5-custom-build/build/ckeditor';
+import { SERVER, SITE_NAME } from "../../config";
+import { useEffect } from "react";
 const editorConfiguration = {
     toolbar: {
         items: [
@@ -46,12 +48,21 @@ const editorConfiguration = {
     },
     licenseKey: '',
     simpleUpload: {
-        uploadUrl: 'http://localhost:5000/api/library',
+        uploadUrl: `${SERVER}/library`,
         withCredentials: true,
 
     }
 };
 export default function CreatePost() {
+    useEffect(() => {
+        document.title = `Tạo bài viết mới - ${SITE_NAME}`
+    },[])
+    useEffect(() => {
+        window.removeEventListener("beforeunload", (e) => {
+            e.preventDefault();
+            console.log("hi")
+        });
+    })
     return (
         <Form className="p-3">
             <Row>
@@ -85,6 +96,38 @@ export default function CreatePost() {
                     </Form.Group>
                 </Col>
                 <Col md={4}>
+                    <Card className="mb-4">
+                        <Card.Header>
+                            <Card.Title>Đăng </Card.Title>
+                        </Card.Header>
+                        <Card.Body>
+                            <Button variant="outline-primary" size="sm">Lưu nháp</Button>
+                            <Nav className="flex-column">
+                                <Nav.Item>Trạng thái:</Nav.Item>
+                                <Nav.Item>Hiển thị:</Nav.Item>
+                                <Nav.Item>Đăng ngay lập tức:</Nav.Item>
+                            </Nav>
+                        </Card.Body>
+                        <Card.Footer className="d-flex justify-content-end">
+                            <Button variant="primary" size="sm">Đăng bài</Button>
+                        </Card.Footer>
+                    </Card>
+                    <Card>
+                        <Card.Header>
+                            <Card.Title>Chuyên mục </Card.Title>
+                        </Card.Header>
+                        <Card.Body>
+                            <Button variant="outline-primary" size="sm">Lưu nháp</Button>
+                            <Nav className="flex-column">
+                                <Nav.Item>Trạng thái:</Nav.Item>
+                                <Nav.Item>Hiển thị:</Nav.Item>
+                                <Nav.Item>Đăng ngay lập tức:</Nav.Item>
+                            </Nav>
+                        </Card.Body>
+                        <Card.Footer className="d-flex justify-content-end">
+                            <Button variant="primary" size="sm">Đăng bài</Button>
+                        </Card.Footer>
+                    </Card>
                 </Col>
             </Row>
             

@@ -10,7 +10,7 @@ const userSlice = createSlice({
     initialState: {
         current: {},
         isLoading: true,
-        isAdmin: false
+        isAdmin: true
     },
     name: 'user',
     reducers: {

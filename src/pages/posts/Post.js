@@ -1,7 +1,6 @@
-import React, { useEffect } from "react"
+import React from "react"
 import { Nav } from "react-bootstrap"
 import { BrowserRouter as Router, Link, Route, Switch, useLocation } from "react-router-dom"
-import { SITE_NAME } from "../../config"
 const ShowPost = React.lazy(() => import('./ShowPost'))
 const CreatePost = React.lazy(() => import('./CreatePost'))
 
@@ -13,24 +12,22 @@ export default function Post() {
         if(/category/i.test(path)) return 'category';
         return "/"
     }
-    useEffect(() => {
-        document.title = `Tất cả bài biết - ${SITE_NAME}`
-    },[])
     return (
         <> 
             <h1> Bài viết </h1>
-            <Router basename="/posts">
+            
                 <Nav variant="pills" defaultActiveKey={defaultKey()}>
                     <Nav.Item>
-                        <Nav.Link eventKey="/" as={Link} to="/">Tất cả bài viết</Nav.Link>
+                        <Nav.Link eventKey="/" as={Link} to="/posts">Tất cả bài viết</Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
-                        <Nav.Link eventKey="create" as={Link} to="/create">Tạo bài viết</Nav.Link>
+                        <Nav.Link eventKey="create" as={Link} to="/posts/create">Tạo bài viết</Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
-                        <Nav.Link eventKey="category" as={Link} to="/category">Chuyên mục</Nav.Link>
+                        <Nav.Link eventKey="category" as={Link} to="/category/product">Chuyên mục</Nav.Link>
                     </Nav.Item>
                 </Nav>
+            <Router basename="/posts">
                 <div className="tab-content">
                     <Switch>
                         <Route exact path="/" component={ShowPost}/>

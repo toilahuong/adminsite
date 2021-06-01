@@ -1,6 +1,11 @@
+import { useEffect } from "react";
 import { Table } from "react-bootstrap";
+import { SITE_NAME } from "../../config";
 
 export default function ShowPost() {
+    useEffect(() => {
+        document.title = `Tất cả bài biết - ${SITE_NAME}`
+    },[])
     return (
         <Table striped bordered hover>
             <thead>
