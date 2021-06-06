@@ -1,4 +1,5 @@
 export const SERVER = 'http://localhost:5000/api'
+export const CLIENT = 'http://localhost:3000'
 export const SITE_NAME = 'ADMINSITE'
 export const RS_THUMBNAIL = '150/150';
 export const RS_MEDIUM = '300/300';

@@ -11,3 +11,12 @@ export function isLoggedIn() {
     if (localStorage.getItem("auth") === "" || localStorage.getItem("auth") === null) return false;
     return true;
 }
+export const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+export function removeTags(str) {
+    if ((str === null) || (str === ''))
+        return "";
+    else
+        str = str.toString();
+    str = str.substr(0, 150);
+    return str.replace(/(<([^>]+)>)/ig, '');
+}

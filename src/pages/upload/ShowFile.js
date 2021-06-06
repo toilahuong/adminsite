@@ -4,9 +4,12 @@ import { SERVER } from "../../config"
 import { AiOutlineEye, AiOutlineDelete } from 'react-icons/ai'
 import { toast } from "react-toastify";
 import { useState } from "react";
+import { removeFile } from "../../redux/slices/file";
+import { useDispatch } from "react-redux";
 
 export default function ShowFile(props) {
-    const {item,remove} = props;
+    const {item} = props;
+    const dispatch = useDispatch();
     const [modalShow, setModalShow] = useState(false);
     const settings = {
         position: "top-right",
@@ -24,7 +27,8 @@ export default function ShowFile(props) {
     const onRemove = async (e) => {
         e.stopPropagation()
         await removeImage();
-        await remove((curr) => curr.filter((value) => value !== item));
+        const remove = removeFile(item.id);
+        dispatch(remove);
         toast.success('Đã xóa',settings)
     }
     
@@ -43,7 +47,7 @@ export default function ShowFile(props) {
                     </Button>
                 </div>
                 <ShowModal
-                    url={item.url}
+                    item={item}
                     show={modalShow}
                     onHide={() => setModalShow(false)}
                 />
@@ -53,6 +57,7 @@ export default function ShowFile(props) {
     )
 }
 function ShowModal(props) {
+  const {item,onHide} = props
     return (
         <Modal
           {...props}
@@ -62,14 +67,14 @@ function ShowModal(props) {
         >
           <Modal.Header closeButton>
             <Modal.Title id="contained-modal-title-vcenter">
-              Modal heading
+              {item.name}
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Image src={props.url} fluid/>
+            <Image src={item.url} fluid/>
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={props.onHide}>Close</Button>
+            <Button onClick={onHide}>Close</Button>
           </Modal.Footer>
         </Modal>
       );

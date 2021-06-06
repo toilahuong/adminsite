@@ -2,22 +2,26 @@ import axios from "axios";
 import { useEffect, useState } from "react"
 import { SERVER } from "../../config";
 import { ProgressBar } from "react-bootstrap";
+import { addFile } from "../../redux/slices/file";
+import { useDispatch } from "react-redux";
 export default function SingleUploadFile(props) {
-    const {file, onLoaded} = props;
+    const {file} = props;
+    const dispatch = useDispatch();
     const [progress,setProgress] = useState(0);
     const [isActive,setActive] = useState(true);
     useEffect(() => {
         (async () => {
             try {
                 const data = await uploadFile(file,setProgress)
-                onLoaded((current) => [data,...current]);
+                const actionAddFile = addFile(data);
+                dispatch(actionAddFile);
                 setActive(false);
             } catch (err) {
                 setActive(false);
             }
             
         })()
-    },[file,onLoaded])
+    },[dispatch,file])
     return isActive ?
     (
         <div className="item" onClick={(e) => e.stopPropagation()}>

@@ -1,5 +1,5 @@
 @import './variable.scss';
-nav.navbar {
+.header nav.navbar {
     position: fixed;
     top: 0;
     left: 0;
@@ -21,7 +21,7 @@ nav.navbar {
     left: 0;
     background-color: $second-color;
     height: 100%;
-    z-index: 888;
+    z-index: 1011;
     color: #fff;
     transition: .5s cubic-bezier(0.075, 0.82, 0.165, 1);
     overflow-y: auto;
@@ -38,62 +38,12 @@ nav.navbar {
     .wrapper-content {
         margin-left: 0px;
     }
-    nav.navbar {
+    .header nav.navbar {
         width: 100%;
         margin-left: 0px;
     }
 }
 
-@media screen and (max-width: 992px) {
-    .wrapper-sidebar {
-        left: -300px;
-    }
-    .wrapper-content {
-        margin-left: 0px;
-    }
-    nav.navbar {
-        width: 100%;
-        margin-left: 0px;
-    }
-    .wrapper.sidebar-toggle {
-        .wrapper-sidebar {
-            left: 0px;
-        }
-        .wrapper-content {
-            margin-left: 300px;
-        }
-        nav.navbar {
-            width: calc(100% - 300px);
-            margin-left: 300px;
-        }
-    }
-}
-.wrapper-sidebar .nav {
-    padding: 10px;
-}
-.wrapper-sidebar .nav-item {
-    background-color: transparent;
-    display: block;
-    width: 100%;
-    border-radius: 5px;
-    transition: .5s ease;
-    margin-bottom: 10px;
-}
-.wrapper-sidebar .nav-item a {
-    display: block;
-    color: #fff;
-    padding: 10px;
-    font-weight: 500;
-    text-decoration: none;
-}
-.wrapper-sidebar .nav-item span.icon svg {
-    vertical-align: middle;
-    font-size: 24px;
-    margin-right: 5px;
-}
-.wrapper-sidebar .nav-item:hover,.wrapper-sidebar .nav-item.active {
-    background-color: $primary-color;
-}
 .sidebar-header {
     text-align: center;
     margin-bottom: 30px;
@@ -114,10 +64,66 @@ nav.navbar {
     img {
         margin-top: 10px;
     }
+    
 }
 
-@media screen and (max-width: 300px) {
+@media screen and (max-width: 992px) {
+    .wrapper-sidebar {
+        left: -300px;
+    }
+    .wrapper-content {
+        margin-left: 0px;
+    }
+    .header nav.navbar {
+        width: 100%;
+        margin-left: 0px;
+    }
+    .wrapper.sidebar-toggle {
+        .wrapper-sidebar {
+            left: 0px;
+        }
+    }
     .sidebar-header button {
         display: block;
     };
+}
+
+
+
+
+.sidebar-menu,.sidebar-menu ul {
+    padding-left: 0;
+}
+.sidebar-menu li {
+    list-style: none;
+}
+
+.sidebar-menu a {
+    position: relative;
+    display: block;
+    padding: 10px;
+    padding-left: 20px;
+    color: #fff;
+    font-weight: 500;
+    transition: .5s ease;
+
+}
+.sidebar-menu > li > a {
+    padding: 10px;
+    font-size: 18px;
+    background-color: transparent;
+}
+.sidebar-menu a:hover,.sidebar-menu a.current {
+    background-color: rgba($color: $primary-color, $alpha: 1);
+}
+.sidebar-menu a svg {
+    font-size: 20px;
+    margin-right: 10px;
+    vertical-align: center;
+}
+.sidebar-menu a span {
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 10px;
 }

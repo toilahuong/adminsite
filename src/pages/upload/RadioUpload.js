@@ -3,10 +3,10 @@ import { useDropzone } from 'react-dropzone'
 import SingleUploadFile from './SingleUploadFile';
 import '../../assets/scss/uploadFile.scss';
 import {  SITE_NAME } from '../../config';
-import ShowFile from './ShowFile';
 import { Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { getFile } from '../../redux/slices/file';
+import { getFile, setSelectRadio } from '../../redux/slices/file';
+import RadioShowFile from './RadioShowFile';
 const baseStyle = {
   flex: 1,
   display: 'flex',
@@ -35,7 +35,7 @@ const acceptStyle = {
 const rejectStyle = {
   borderColor: '#ff1744'
 };
-export default function Upload() {
+export default function RadioUpload(props) {
   const [files, setFiles] = useState([]);
   const [page, setPage] = useState(0);
   const loader = useRef(null);
@@ -51,7 +51,7 @@ export default function Upload() {
     document.title = `Upload Files - ${SITE_NAME}`;
   },[])
   useEffect(() => {
-    dispatch(getFile({limit: 12, page: page}))
+    dispatch(getFile({limit: 18, page: page}))
   }, [dispatch,page])
   const { getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject } = useDropzone({
     accept: 'image/*',
@@ -88,6 +88,11 @@ export default function Upload() {
     }
 
   }, [handleObserver]);
+  const handleChange = (e) => {
+    const actionSelecRadio = setSelectRadio(parseInt(e.target.value));
+    dispatch(actionSelecRadio);
+    props.onHide();
+  }
   return (
     <div {...getRootProps({ style })}>
       <input {...getInputProps()} />
@@ -97,11 +102,11 @@ export default function Upload() {
           <p>Drag 'n' drop some files here, or click to select files</p>
       }
       <div className="uploadFile">
-        {files.map((file, index) => <SingleUploadFile key={index} file={file}/>)}
+        {files.map((file, index) => <SingleUploadFile key={index} file={file} />)}
       </div>
-      <div className="listFile">
+      <div className="listFile" onChange={handleChange}>
         <Row>
-          {data.current.map((item, index) => <ShowFile key={index} item={item}/>)}
+          {data.current.map((item, index) => <RadioShowFile key={index} item={item} />)}
         </Row>
       </div>
       <div className="loading" ref={loader}>
