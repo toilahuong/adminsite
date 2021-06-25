@@ -149,7 +149,7 @@ function ButtonRemove(props) {
     const remove = async () =>  {
         setRemoving(true);
         await delay(1000);
-        handleRemove(parseInt(id))
+        await handleRemove(parseInt(id))
         setRemoving(false);
     }
     return <button className="draft" size="sm" disabled={removing} onClick={remove}>{removing ? "Đang xóa..." : "Xóa"}</button>

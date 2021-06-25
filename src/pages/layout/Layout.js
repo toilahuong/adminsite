@@ -8,6 +8,8 @@ const Post = React.lazy(() => import('../post/Post'))
 const Page = React.lazy(() => import('../page/Page'))
 const Category = React.lazy(() => import('../category/Category'))
 const Upload = React.lazy(() => import('../upload/Upload'))
+const Product = React.lazy(() => import('../product/Product'))
+const Attribute = React.lazy(() => import('../attribute/Attribute'))
 
 export default function Layout() {
     const [isToggle, setToggle] = useState(false);
@@ -26,6 +28,8 @@ export default function Layout() {
                         <Route path="/pages" component={Page}/>
                         <Route path="/category" component={Category}/>
                         <Route path="/upload" component={Upload}/>
+                        <Route path="/products" component={Product}/>
+                        <Route path="/attributes" component={Attribute}/>
                         <Route exact path="/" render={() => <Redirect to="/dashboard"/>}/>
                     </Switch>
                 </Container>

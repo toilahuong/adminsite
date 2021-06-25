@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Collapse } from 'react-bootstrap';
-import { AiFillDashboard, AiOutlineArrowLeft, AiOutlineFolderOpen, AiOutlineRead, AiOutlineShoppingCart } from 'react-icons/ai'
+import { AiFillDashboard, AiOutlineArrowLeft, AiOutlineFolderOpen, AiOutlineRead, AiOutlineShoppingCart,AiOutlineApartment } from 'react-icons/ai'
 import { BiCircle } from 'react-icons/bi'
 import { HiOutlineChevronDown } from 'react-icons/hi'
 import { IoNewspaperOutline } from 'react-icons/io5'
@@ -70,8 +70,19 @@ const dataMenu = [
                 label: "Chuyên mục",
                 url: `/category/product`,
                 icon: BiCircle,
+            },
+            
+            {
+                label: "Mã giảm giá",
+                url: `/discounts`,
+                icon: BiCircle,
             }
         ]
+    },
+    {
+        label: "Thuộc tính",
+        url: `/attributes`,
+        icon: AiOutlineApartment,
     },
     {
         label: "Upload Files",

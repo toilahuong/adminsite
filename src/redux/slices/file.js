@@ -12,7 +12,9 @@ export const getFile = createAsyncThunk('auth/getFile', async ({limit, page}) =>
 const fileSlice = createSlice({
     initialState: {
         current: [],
-        selectRadio: null
+        selectRadio: null,
+        selectCheckbox: [],
+        page: 0,
     },
     name: 'file',
     reducers: {
@@ -24,11 +26,24 @@ const fileSlice = createSlice({
             state.current  = state.current.filter((item) => item.id !== action.payload);
             return state;
         },
+        removeAllFile(state) {
+            state.current = [];
+        },
         setSelectRadio(state,action) {
             state.selectRadio = action.payload;
         },
         removeSelectRadio(state) {
             state.selectRadio = null;
+        },
+        setSelectCheckbox(state,action) {
+            state.selectCheckbox = [...state.selectCheckbox,...action.payload];
+        },
+        removeSelectCheckbox(state,action) {
+            state.selectCheckbox = state.selectCheckbox.filter(id => id !== action.payload);
+            return state;
+        },
+        incrementPage(state) {
+            state.page += 1;
         }
     },
     extraReducers: {
@@ -39,5 +54,14 @@ const fileSlice = createSlice({
         }
     }
 })
-export const { addFile,removeFile,setSelectRadio,removeSelectRadio} = fileSlice.actions;
+export const { 
+    addFile,
+    removeFile,
+    removeAllFile,
+    setSelectRadio,
+    removeSelectRadio,
+    setSelectCheckbox,
+    removeSelectCheckbox,
+    incrementPage
+} = fileSlice.actions;
 export default fileSlice.reducer;

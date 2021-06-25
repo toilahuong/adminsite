@@ -27,12 +27,12 @@ export default function ShowPost() {
     const query = useQuery();
     const history = useHistory()
     const page = query.get("page")
-    const title = query.get("title")
+    const name = query.get("name")
     const [data, setData] = useState();
     const [count, setCount] = useState();
     const [limit, setLimit] = useState(query.get("limit"));
-    const [category, setCategory] = useState(query.get("category"));
     const [status, setStatus] = useState(query.get("status"));
+    const [category, setCategory] = useState(query.get("category"));
     const [dataIds, setDataIds] = useState();
     const [selectAll, setSelectAll] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
@@ -41,13 +41,13 @@ export default function ShowPost() {
     const typingTimeoutRef = useRef(null);
     const getData = useCallback(async () => {
         try {
-            document.title = `Tất cả bài biết - ${SITE_NAME}`
-            const response = await axios.get(`${SERVER}/post`,
+            document.title = `Tất cả sản phẩm - ${SITE_NAME}`
+            const response = await axios.get(`${SERVER}/product`,
                 {
                     params: {
                         limit: limit || 25,
-                        title: title || '',
-                        status: status || 'public',
+                        name: name || '',
+                        status: status,
                         category: category || null,
                         page: page || 1
                     }
@@ -58,16 +58,16 @@ export default function ShowPost() {
         } catch (error) {
             console.log(error)
         }
-    }, [limit, title, status, page, category])
+    }, [limit, name, status, page, category])
     useEffect(() => {
         getData();
     }, [getData])
-    const handleRemovePosts = async () => {
+    const handleRemoveProducts = async () => {
         try {
             setSelectAll(false);
             await Promise.all(select.map(async (id) => {
-                if (status !== "trash") await axios.put(`${SERVER}/post/${id}/trast`, {}, { withCredentials: true })
-                else await axios.delete(`${SERVER}/post/${id}`, { withCredentials: true })
+                if (status !== "trash") await axios.put(`${SERVER}/product/${id}/trast`, {}, { withCredentials: true })
+                else await axios.delete(`${SERVER}/product/${id}`, { withCredentials: true })
                 const actionRemove = removeSelect([id]);
                 dispatch(actionRemove);
             }))
@@ -77,12 +77,12 @@ export default function ShowPost() {
             toast.error("Đã xảy ra lỗi", settings)
         }
     }
-    const handleRemovePost = async (id) => {
+    const handleRemoveProduct = async (id) => {
         try {
 
 
-            if (status !== "trash") await axios.put(`${SERVER}/post/${id}/trast`, {}, { withCredentials: true })
-            else await axios.delete(`${SERVER}/post/${id}`, { withCredentials: true })
+            if (status !== "trash") await axios.put(`${SERVER}/product/${id}/trast`, {}, { withCredentials: true })
+            else await axios.delete(`${SERVER}/product/${id}`, { withCredentials: true })
             setData((curr) => curr.filter(item => item.id !== id));
             const actionRemove = removeSelect([id]);
             dispatch(actionRemove);
@@ -92,11 +92,11 @@ export default function ShowPost() {
             toast.success("Đã xảy ra lỗi", settings)
         }
     }
-    const handleRestorePosts = async () => {
+    const handleRestoreProducts = async () => {
         try {
             setSelectAll(false);
             await Promise.all(select.map(async (id) => {
-                await axios.put(`${SERVER}/post/${id}/restore`, {}, { withCredentials: true })
+                await axios.put(`${SERVER}/product/${id}/restore`, {}, { withCredentials: true })
                 const actionRemove = removeSelect([id]);
                 dispatch(actionRemove);
             }))
@@ -106,11 +106,11 @@ export default function ShowPost() {
             toast.error("Đã xảy ra lỗi", settings)
         }
     }
-    const handleRestorePost = async (id) => {
+    const handleRestoreProduct = async (id) => {
         try {
 
 
-            await axios.put(`${SERVER}/post/${id}/restore`,{}, { withCredentials: true })
+            await axios.put(`${SERVER}/Product/${id}/restore`,{}, { withCredentials: true })
             setData((curr) => curr.filter(item => item.id !== id));
             const actionRemove = removeSelect([id]);
             dispatch(actionRemove);
@@ -161,8 +161,8 @@ export default function ShowPost() {
                 <div className="d-flex justify-content-between align-items-center">
                     <h5 className="m-0">Danh sách bài viết</h5>
                     <ul className="d-flex" style={{ margin: '0', listStyle: 'none' }}>
-                        {status === "trash" ? <li className="mr-2"><Button variant="primary" onClick={handleRestorePosts}>Khôi phục</Button></li> : undefined}
-                        <li className="mr-2"><Button variant="danger" onClick={handleRemovePosts}>{status === "trash" ? "Xóa đã chọn" : "Bỏ vào thùng rác"}</Button></li>
+                        {status === "trash" ? <li className="mr-2"><Button variant="primary" onClick={handleRestoreProducts}>Khôi phục</Button></li> : undefined}
+                        <li className="mr-2"><Button variant="danger" onClick={handleRemoveProducts}>{status === "trash" ? "Xóa đã chọn" : "Bỏ vào thùng rác"}</Button></li>
                         <li className="mr-2">
                             <FormControl as="select" onChange={handleStatusChange} value={status || ""}>
                                 <option value="">Trạng thái</option>
@@ -207,7 +207,7 @@ export default function ShowPost() {
                         </tr>
                     </thead>
                     <tbody>
-                        {data && data.map((item, index) => <Showitem key={index} remove={handleRemovePost} restore={handleRestorePost} item={item} />)}
+                        {data && data.map((item, index) => <Showitem key={index} remove={handleRemoveProduct} restore={handleRestoreProduct} item={item} />)}
                     </tbody>
                 </Table>
                 <Pagination>
@@ -252,10 +252,10 @@ function Showitem(props) {
     return (
         <tr className={select.includes(item.id) ? 'select' : undefined}>
             <td><input type="checkbox" checked={select.includes(item.id)} onChange={handleChange} /></td>
-            <td><Image src={item.library ? item.library.thumbnail : EmptyImage} fluid /></td>
+            <td><Image src={item.thumb ? item.thumb.thumbnail : EmptyImage} fluid /></td>
             <td style={{ fontWeight: "500" }} >
                 <Link style={{ fontSize: "14px" }} to={"/" + item.id + "/edit"}>
-                    {item.title}
+                    {item.name}
                     {item.status === "draft" ? <span style={{ color: "rgb(127 111 111)" }}> (Nháp)</span> : ""}
                     {postDate > timeNow ? <span style={{ color: "rgb(127 111 111)" }}> ({moment(postDate).fromNow()})</span> : ''}
                 </Link>
@@ -265,7 +265,7 @@ function Showitem(props) {
                     <button onClick={handleRemove} disabled={pendingRemove} className="draft"> {pendingRemove ? "Đang xử lý..." : status === "trash" ? "Xóa" : "Thùng rác"} </button>
                 </div>
             </td>
-            <td>{removeTags(item.content)}</td>
+            <td>{removeTags(item.details)}</td>
             <td>{item.categories && item.categories.map((cat, index) => <ShowCategory key={index} item={cat} idx={index} />)}</td>
             <td>{item.user.full_name}</td>
             <td>
@@ -281,7 +281,7 @@ function SelectCategories() {
     const category = useSelector((state) => {
         const current = state.category.current;
         if (current) {
-            return current.filter((cat) => cat.category_type === "post");
+            return current.filter((cat) => cat.category_type === "product");
         } else {
             return current;
         }

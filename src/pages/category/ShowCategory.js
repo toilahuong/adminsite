@@ -7,7 +7,7 @@ import ListCategory from "./ListCategory";
 export default function ShowCategory() {
     const { categoryType } = useParams();
     useEffect(() => {
-        if(categoryType !== "product" && categoryType !== "post") window.location = '/';
+        if(categoryType !== "product" && categoryType !== "post") window.location = '/dashboard';
         document.title = `CATEGORY ${categoryType.toUpperCase()} - ${SITE_NAME}`;
     },[categoryType])
     return (

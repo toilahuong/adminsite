@@ -30,8 +30,14 @@ a {
     margin-top: 30px;
     background-color: #fff;
 }
-.ck-editor__editable {
+.content .ck-editor__editable {
     min-height: 470px;
+}
+.description .ck-editor__editable {
+    min-height: 200px;
+}
+.ck.ck-sticky-panel .ck-sticky-panel__content_sticky {
+    top: 56px !important;
 }
 .react-icon {
     vertical-align: middle;
@@ -99,5 +105,18 @@ a {
     }
     tr:hover .table-action {
         visibility: unset;
+    }
+}
+.select-attribute {
+    display: flex;
+    list-style: none;
+    flex-flow: wrap;
+    width: 100%;
+    padding: 0;
+    li {
+        padding: 10px 20px;
+        input {
+            margin-right: 10px;
+        }
     }
 }

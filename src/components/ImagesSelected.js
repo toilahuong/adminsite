@@ -6,7 +6,7 @@ export default function ImagesSelected(props) {
     return (
         <div className="thumbnail-selected">
             <Image className="mt-2" src={item.medium} fluid />
-            <Button variant="default" onClick={remove}><AiFillCloseCircle /></Button>
+            <Button variant="default" onClick={() => remove(item.id)}><AiFillCloseCircle /></Button>
         </div>
     )
 }

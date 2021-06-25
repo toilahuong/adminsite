@@ -2,10 +2,9 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 import SingleUploadFile from './SingleUploadFile';
 import '../../assets/scss/uploadFile.scss';
-import {  SITE_NAME } from '../../config';
 import { Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { getFile, setSelectRadio } from '../../redux/slices/file';
+import { getFile, incrementPage, setSelectRadio } from '../../redux/slices/file';
 import RadioShowFile from './RadioShowFile';
 const baseStyle = {
   flex: 1,
@@ -37,7 +36,6 @@ const rejectStyle = {
 };
 export default function RadioUpload(props) {
   const [files, setFiles] = useState([]);
-  const [page, setPage] = useState(0);
   const loader = useRef(null);
   const data = useSelector((state) => state.file);
   const dispatch = useDispatch();
@@ -48,11 +46,8 @@ export default function RadioUpload(props) {
     setFiles((curr) => [...curr, ...mappedAcc]);
   }, []);
   useEffect(() => {
-    document.title = `Upload Files - ${SITE_NAME}`;
-  },[])
-  useEffect(() => {
-    dispatch(getFile({limit: 18, page: page}))
-  }, [dispatch,page])
+    dispatch(getFile({limit: 18, page: data.page}))
+  }, [dispatch,data.page])
   const { getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject } = useDropzone({
     accept: 'image/*',
     onDrop: onDrop
@@ -73,9 +68,9 @@ export default function RadioUpload(props) {
   const handleObserver = useCallback((entities) => {
     const target = entities[0];
     if (target.isIntersecting) {
-      setPage((page) => page+1);
+      dispatch(incrementPage())
     }
-  },[])
+  },[dispatch])
   useEffect(() => {
     var options = {
       root: null,

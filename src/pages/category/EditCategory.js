@@ -19,7 +19,7 @@ const settings = {
     draggable: true,
     progress: undefined,
 };
-export default function EditCategory(props) {
+export default function EditCategory() {
     const { id } = useParams();
     const [type, setType] = useState(null);
     const [thumbnail, setThumbnail] = useState(null);
@@ -39,12 +39,17 @@ export default function EditCategory(props) {
     const dispatch = useDispatch();
     useEffect(() => {
         (async() => {
-            const response = await axios.get(`${SERVER}/category/${id}`);
-            setName(response.data.name);
-            setThumbnail(response.data.library)
-            setDescription(response.data.description);
-            setParentId(response.data.parent_id);
-            setType(response.data.category_type)
+            try {
+                const response = await axios.get(`${SERVER}/category/${id}`);
+                setName(response.data.name);
+                setThumbnail(response.data.library)
+                setDescription(response.data.description);
+                setParentId(response.data.parent_id);
+                setType(response.data.category_type)
+            } catch(error) {
+                window.location = '/'
+            }
+            
         })();
     },[id])
     useEffect(() => {
@@ -86,12 +91,12 @@ export default function EditCategory(props) {
     return (
         <Card>
             <Card.Header>
-                <Card.Title>Tạo chuyên mục </Card.Title>
+                <Card.Title>Chỉnh sửa chuyên mục </Card.Title>
             </Card.Header>
             <Card.Body>
                 <Form onSubmit={handleSubmit}>
                     <Form.Group controlId="Form.ControlName">
-                        <Form.Label>Chỉnh sửa chuyên mục</Form.Label>
+                        <Form.Label>Tên chuyên mục</Form.Label>
                         <Form.Control type="text" onChange={(e) => setName(e.target.value)} value={name} placeholder="Enter..." />
                     </Form.Group>
                     <Form.Group controlId="Form.ControlParent">

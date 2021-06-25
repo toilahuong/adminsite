@@ -20,3 +20,15 @@ export function removeTags(str) {
     str = str.substr(0, 150);
     return str.replace(/(<([^>]+)>)/ig, '');
 }
+export function equar(a, b) {
+    if (a.length !== b.length) {
+        return false
+    } else {
+        for (let i = 0; i < a.length; i++) {
+            if (a[i] !== b[i]) {
+                return false
+            }
+        }
+        return true;
+    }
+}
